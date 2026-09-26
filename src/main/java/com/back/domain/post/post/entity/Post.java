@@ -14,6 +14,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @RequiredArgsConstructor
+//@ToString
 public class Post {
     @Id // PK
     @GeneratedValue(strategy = IDENTITY) // AUTO_INCREMENT. 기본 key 생성 전략
@@ -23,4 +24,10 @@ public class Post {
 
     @Column(columnDefinition = "TEXT")
     private final String content;
+
+    // BaseInitData의 postRepository.findById(1); 때문에 생성자 필요
+    public Post() {
+        this.title = "";
+        this.content = "";
+    }
 }

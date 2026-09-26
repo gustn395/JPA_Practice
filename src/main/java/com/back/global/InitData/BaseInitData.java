@@ -37,5 +37,13 @@ public class BaseInitData {
     void work2(){
         // SELECT * FROM post WHERE id = 1;
         Optional<Post> opPost1 = postRepository.findById(1);
+
+        // opPost1.get() : 실제 Post 객체를 반환
+        Post post1 = opPost1.get();
+
+        // 출력값 :
+        // com.back.domain.post.post.entity.Post @ 64ccfc68
+        // └─ 패키지를 포함한 클래스 이름           └─ 해시 코드의 16진수 표현
+        System.out.println("post1 : " + post1);
     };
 }
