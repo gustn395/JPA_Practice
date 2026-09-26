@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -13,21 +13,20 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity // JPA entity임을 명시. 아래 구조대로 DB 테이블을 만들어야 한다.
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor // @RequiredArgsConstructor가 없기 때문에 인자를 받지 않는 생성자를 만들어주는 annotation 필요
 //@ToString
 public class Post {
     @Id // PK
     @GeneratedValue(strategy = IDENTITY) // AUTO_INCREMENT. 기본 key 생성 전략
     private int id; // INT
 
-    private final String title;
+    private String title;
 
     @Column(columnDefinition = "TEXT")
-    private final String content;
+    private String content;
 
-    // BaseInitData의 postRepository.findById(1); 때문에 생성자 필요
-    public Post() {
-        this.title = "";
-        this.content = "";
+    public Post(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 }
