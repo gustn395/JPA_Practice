@@ -3,9 +3,11 @@ package com.back.global.InitData;
 import com.back.domain.post.post.entity.Post;
 import com.back.domain.post.post.service.PostService.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -13,6 +15,10 @@ import java.util.Optional;
 @Configuration
 @RequiredArgsConstructor
 public class BaseInitData {
+    @Autowired
+    @Lazy
+    private BaseInitData self; // BaseInitData 자리 : class 이름
+
     private final PostService postService;
 
     private int callCount = 0;
@@ -20,8 +26,11 @@ public class BaseInitData {
     @Bean
     ApplicationRunner baseInitDataApplicationRunner() {
         return args -> {
-            work1();
-            work2();
+            // work1();
+            // work2();
+
+            self.work1();
+            self.work2();
 
             callCount++;
         };
