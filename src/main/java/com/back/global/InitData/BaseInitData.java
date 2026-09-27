@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -27,6 +28,8 @@ public class BaseInitData {
     }
 
     // 생성 logic
+    // 작업을 수행하다가 실패할 경우, 일부 데이터만 남아있는 찌꺼기를 방지하고 이전 상태로 깔끔하게 Rollback되도록 보호해준다
+    @Transactional
     void work1(){
         // 게시글이 이미 있는지 확인. 하나라도 있으면 여기서 종료
         if (postService.count() > 0) return;
@@ -42,6 +45,9 @@ public class BaseInitData {
     };
 
     // 조회 logic
+    // 데이터 수정/생성 없이 조회(SELECT)만 발생하는 메서드에는 readOnly = true 옵션을 붙인다
+    // -> 성능을 최적화하고 읽기 전용 DB 서버로 분기시킬 수 있다
+    @Transactional(readOnly = true)
     void work2(){
         // SELECT * FROM post WHERE id = 1;
         Optional<Post> opPost1 = postService.findById(1);
@@ -49,9 +55,6 @@ public class BaseInitData {
         // opPost1.get() : 실제 Post 객체를 반환
         Post post1 = opPost1.get();
 
-        // 출력값 :
-        // com.back.domain.post.post.entity.Post @ 64ccfc68
-        // └─ 패키지를 포함한 클래스 이름           └─ 해시 코드의 16진수 표현
         System.out.println("post1 : " + post1);
     };
 }
