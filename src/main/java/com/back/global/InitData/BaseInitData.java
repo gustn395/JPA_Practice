@@ -31,6 +31,7 @@ public class BaseInitData {
 
             self.work1();
             self.work2();
+            self.work3();
 
             callCount++;
         };
@@ -66,4 +67,15 @@ public class BaseInitData {
 
         System.out.println("post1 : " + post1);
     };
+
+    // 수정 logic
+    @Transactional
+    void work3() {
+        Optional<Post> opPost1 = postService.findById(1);
+
+        // opPost1.get() : 실제 Post 객체를 반환
+        Post post1 = opPost1.get();
+
+        postService.modify(post1, "제목 1 수정", "내용 1 수정");
+    }
 }
