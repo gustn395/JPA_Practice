@@ -11,8 +11,12 @@ import java.util.Optional;
 
 @Configuration
 public class BaseInitData {
-    @Autowired
     private PostService postService;
+
+    @Autowired
+    public BaseInitData(PostService postService) {
+        this.postService = postService;
+    }
 
     @Bean
     ApplicationRunner baseInitDataApplicationRunner() {
