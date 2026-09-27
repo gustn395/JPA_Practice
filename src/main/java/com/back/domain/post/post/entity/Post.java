@@ -5,7 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -13,10 +16,14 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 //@ToString
+@NoArgsConstructor
 public class Post {
     @Id // PK
     @GeneratedValue(strategy = IDENTITY) // AUTO_INCREMENT. 기본 key 생성 전략
-    private final int id; // INT
+    private  int id; // INT
+
+    private LocalDateTime createDate;
+    private LocalDateTime modifyDate;
 
     private String title;
 
@@ -24,27 +31,10 @@ public class Post {
     private String content;
 
     public Post(String title, String content) {
-        this.id = 0;
+        this.createDate = LocalDateTime.now();
+        this.modifyDate = this.createDate;
         this.title = title;
         this.content = content;
     }
 
-    // this("", "")가 위(같은 class)의 Post(String title, String content)을 호출
-    // -> id가 초기화 된다.
-    public Post() {
-        this("", "");
-    }
-
-//    id가 final인데 초기화되지 않아서 사용할 수 없음
-//    public Post() {
-//        this.title = "";
-//        this.content = "";
-//    }
-
-//    이건 id가 초기화되기 때문에 가능함
-//    public Post() {
-//        this.id = 0;
-//        this.title = "";
-//        this.content = "";
-//    }
 }

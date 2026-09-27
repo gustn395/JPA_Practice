@@ -27,7 +27,8 @@ public class BaseInitData {
         // 게시글이 이미 있는지 확인. 하나라도 있으면 여기서 종료
         if (postRepository.count() > 0) return;
 
-        Post post1 = postRepository.save(new Post("제목 1", "내용 1"));
+        Post post1 = new Post("제목 1", "내용 1");
+        postRepository.save(post1);
         Post post2 = postRepository.save(new Post("제목 2", "내용 2"));
 
         System.out.println("기본 게시글 2개를 생성했습니다");
