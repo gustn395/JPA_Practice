@@ -1,7 +1,7 @@
 package com.back.global.InitData;
 
 import com.back.domain.post.post.entity.Post;
-import com.back.domain.post.post.repository.PostRepository;
+import com.back.domain.post.post.service.PostService.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +12,7 @@ import java.util.Optional;
 @Configuration
 public class BaseInitData {
     @Autowired
-    private PostRepository postRepository;
+    private PostService postService;
 
     @Bean
     ApplicationRunner baseInitDataApplicationRunner() {
@@ -25,11 +25,14 @@ public class BaseInitData {
     // 생성 logic
     void work1(){
         // 게시글이 이미 있는지 확인. 하나라도 있으면 여기서 종료
-        if (postRepository.count() > 0) return;
+        if (postService.count() > 0) return;
 
         Post post1 = new Post("제목 1", "내용 1");
-        postRepository.save(post1);
-        Post post2 = postRepository.save(new Post("제목 2", "내용 2"));
+        postService.save(post1);
+        Post post2 = postService.save(new Post("제목 1", "내용 2"));
+
+        System.out.println(post1.getId());
+        System.out.println(post2.getId());
 
         System.out.println("기본 게시글 2개를 생성했습니다");
     };
@@ -37,7 +40,7 @@ public class BaseInitData {
     // 조회 logic
     void work2(){
         // SELECT * FROM post WHERE id = 1;
-        Optional<Post> opPost1 = postRepository.findById(1);
+        Optional<Post> opPost1 = postService.findById(1);
 
         // opPost1.get() : 실제 Post 객체를 반환
         Post post1 = opPost1.get();
