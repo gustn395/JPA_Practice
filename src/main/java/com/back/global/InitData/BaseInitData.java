@@ -31,7 +31,8 @@ public class BaseInitData {
 
             self.work1();
             self.work2();
-            // self.work3();
+            self.work4();
+
             new Thread(() -> self.work3()).start(); // 별도의 Thread 를 사용한 이유 : work3 메서드에서 예외가 발생해도 스프링부트가 꺼지지 않도록
 
             callCount++;
@@ -45,9 +46,8 @@ public class BaseInitData {
         // 게시글이 이미 있는지 확인. 하나라도 있으면 여기서 종료
         if (postService.count() > 0) return;
 
-        Post post1 = new Post("제목 1", "내용 1");
-        postService.save(post1);
-        Post post2 = postService.save(new Post("제목 2", "내용 2"));
+        Post post1 = postService.write("제목 1", "내용 1");
+        Post post2 = postService.write("제목 2", "내용 2");
 
         System.out.println(post1.getId());
         System.out.println(post2.getId());
@@ -87,5 +87,13 @@ public class BaseInitData {
         Post post2 = opPost2.get();
 
         postService.modify(post2, "제목 2 수정", "내용 2 수정");
+    }
+
+    @Transactional
+    void work4() {
+        Optional<Post> opPost1 = postService.findById(1);
+        Post post1 = opPost1.get();
+
+        postService.modify(post1, "제목 1 수정", "내용 1 수정");
     }
 }
