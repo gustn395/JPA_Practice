@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -22,8 +24,10 @@ public class Post {
     @GeneratedValue(strategy = IDENTITY) // AUTO_INCREMENT. 기본 key 생성 전략
     private  int id; // INT
 
-    private LocalDateTime createDate;
-    private LocalDateTime modifyDate;
+    @CreatedDate
+    private LocalDateTime createDate; // INSERT 시 자동으로 현재 시간으로 설정됨
+    @LastModifiedDate
+    private LocalDateTime modifyDate; // INSERT/UPDATE 시 자동으로 현재 시간으로 설정됨
 
     private String title;
 
