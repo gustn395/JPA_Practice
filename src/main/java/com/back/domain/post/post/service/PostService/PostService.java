@@ -28,8 +28,9 @@ public class PostService {
         post.setTitle(title);
         post.setContent(content);
 
-        postRepository.save(post);
-        // UPDATE post SET title = ?, content = ?, modify_date = ? WHERE id = ?;
+        // postRepository.save(post);
+        // -> 이 method가 정상 종료되어 commit할 때, Hibernate가 변경을 감지하고 필요한 UPDATE SQL을 실행
+
     }
 
     public Post write(String title, String content) {
