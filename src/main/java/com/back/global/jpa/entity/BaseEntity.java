@@ -16,7 +16,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @MappedSuperclass // 엔티티의 부모 클래스에는 이걸 달아야 한다.
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-public class BaseEntity {
+public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
